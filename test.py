@@ -50,13 +50,14 @@ print(clf.score(temp_i.T[384:],targets[384:]))
 #print(clf2.score(temp_i.T[384:],targets[384:]))
 pred=clf.predict(temp_i.T[384:])
 pred_train=clf.predict(temp_i.T[0:384])
-
+print(len(pred_train[:,0]))
 import matplotlib.pyplot as plt
 #print(clf5.get_params())
+
 plt.figure(1)
-plt.plot(range(0,len(targets[384:])),pred,'red',range(0,len(targets[384:])),targets[384:],'blue')
+plt.plot(range(0,len(targets[384:])),pred[:,0],'red',range(0,len(targets[384:])),targets[384:,0],'blue')
 plt.figure(2)
-plt.plot(range(0,len(targets[0:384])),pred_train,'red',range(0,len(targets[0:384])),targets[0:384],'blue')
+plt.plot(range(0,len(targets[0:384])),pred_train[:,0],'red',range(0,len(targets[0:384])),targets[0:384,0],'blue')
 plt.show()
 #print(input.head())
 #print(len(input))
