@@ -11,6 +11,8 @@ print(len(df_op))
 print(len(df_ip))
 print(len(df_ip.T))
 ip_frame=[]
+
+##### Step 1 : Data Preprocessing
 print(len(df_ip.T[1:37]))
 for i in range(0,43):
     temp=np.array(df_ip.T[(i)*12:i*12+36].values)
@@ -29,6 +31,7 @@ clf=neural_network.MLPRegressor(random_state=0,hidden_layer_sizes=500,activation
 clf.fit(ip_frame[1:30],df_op_a[1:30])
 print(clf.score(ip_frame[1:30],df_op_a[1:30]))
 
+#### Step 2: implementing a predictor
 
 from sklearn import ensemble
 
@@ -41,6 +44,9 @@ pred=clf2.predict(ip_frame[30:40])
 print(pred)
 print(df_op_a[30:-1])
 #pred_train=clf2.predict(input.T[0:384])
+
+
+#### Step 3:   Plotting the results
 import matplotlib.pyplot as plt
 plt.figure(1)
 plt.plot(range(0,len(ip_frame[30:40])),pred,'red',range(0,len(ip_frame[30:40])),df_op_a[30:40],'blue')

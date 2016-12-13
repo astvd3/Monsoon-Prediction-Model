@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
+
+#### Step 1 : Data Retrieval
 df_temp=pd.read_pickle('dipole.pkl')
 temp=(df_temp['0.222633'])
 
@@ -80,7 +82,7 @@ df_temp=pd.DataFrame(test.ravel()).T
 #print(df_temp)
 
 #print(result_n.T[6:12])
-
+###################### Step 2 : Data Preprocessing
 for i in range(0,516):
     temp123=(result_n.T[(i):i+36].values)
     temp123=np.array(temp123)
@@ -120,7 +122,7 @@ print(test[0])
 input=input.T
 #test2=pd.DataFrame(test)
 targets=targets[0:480]
-
+##### Step 3: Decision Trees
 from sklearn import tree
 
 clf=tree.DecisionTreeRegressor(random_state=0)
@@ -129,6 +131,9 @@ clf.fit(input.T[0:384],targets[0:384])
 print(clf.score(input.T[384:],targets[384:]))
 #output_d.values.to_csv('output.csv')
 #input.to_csv('input.csv')
+
+### Step 4: Testing With Ensemble Learning Approach
+
 from sklearn import ensemble
 
 clf2=ensemble.GradientBoostingRegressor(random_state=0)
@@ -154,7 +159,7 @@ import matplotlib.pyplot as plt
 
 parameters={ 'min_samples_split':[2,10], 'max_depth':[3, 15],'n_estimators':[10,50]}
 from sklearn import grid_search
-
+###### Step 5 Testing With Neural Networks
 from sklearn.neural_network import MLPRegressor
 
 clf5=MLPRegressor(random_state=0,hidden_layer_sizes=500,activation='logistic',max_iter=500,)
@@ -163,10 +168,15 @@ pred=clf5.predict(input.T[384:])
 pred_train=clf5.predict(input.T[0:384])
 print(clf5.score(input.T[384:],targets[384:]))
 print(clf5.get_params())
+
+### Plotting the results
+
 plt.figure(1)
 plt.plot(range(0,len(targets[384:])),pred,'red',range(0,len(targets[384:])),targets[384:],'blue')
 plt.figure(2)
 plt.plot(range(0,len(targets[0:384])),pred_train,'red',range(0,len(targets[0:384])),targets[0:384],'blue')
 plt.show()
 from sklearn.externals import joblib
+
+#### Dumping the obtained classifier
 joblib.dump(clf5, 'clf5.pkl')
